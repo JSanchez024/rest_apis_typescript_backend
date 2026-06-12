@@ -1,17 +1,17 @@
+import 'dotenv/config'
 import express from 'express'
 import router from './router'
 import db from './config/db'
 import colors from 'colors'
 
 //Conectar a base de datos
-async function connectDB() {
+export async function connectDB() {
     try {
         await db.authenticate()
         db.sync()
-        console.log(colors.bgGreen.bold('Conexion exitosa a la Base de Datos'))
+       // console.log(colors.bgGreen.bold('Conexion exitosa a la Base de Datos'))
         
     } catch (error) {
-        console.log(error)
         console.log(colors.bgRed.bold('Hubo un error al conectar a la Base de Datos'))
     }
 }
@@ -30,6 +30,8 @@ server.use('/api/products', router )
 
 
 
-
+server.get('/api', (req, res) => {
+    res.json({msg: 'Desde API'})
+})
 
 export default server

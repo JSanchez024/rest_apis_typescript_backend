@@ -10,7 +10,14 @@
         "sourceMap": true,
         "declaration": true,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true,
+        "types": ["jest", "node"],
+        "isolatedModules": true
     },
-    "include": ["src/**/*.ts"]
+    "include": [
+        "src/**/*.ts",
+        "**/*.test.ts", 
+        "**/*.spec.ts"    
+    ],
+    
 }
