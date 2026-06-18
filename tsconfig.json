@@ -14,10 +14,9 @@
         "types": ["jest", "node"],
         "isolatedModules": true
     },
-    "include": [
-        "src/**/*.ts",
-        "**/*.test.ts", 
-        "**/*.spec.ts"    
-    ],
+    "include": ["src/**/*.ts"],
+    "exclude": ["src/**/*.test.ts",
+                "src/**/*.spec.ts"
+            ]
     
 }
