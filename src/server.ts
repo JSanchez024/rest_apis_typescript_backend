@@ -1,6 +1,8 @@
 import 'dotenv/config'
 import express from 'express'
 import colors from 'colors'
+import cors, {CorsOptions} from 'cors'
+import morgan from 'morgan'
 import swaggerUi from 'swagger-ui-express'
 import swaggerSpec, {swaggerUiOptions} from './config/swagger'
 import router from './router'
@@ -11,7 +13,7 @@ export async function connectDB() {
     try {
         await db.authenticate()
         db.sync()
-       // console.log(colors.bgGreen.bold('Conexion exitosa a la Base de Datos'))
+        console.log(colors.bgGreen.bold('Conexion exitosa a la Base de Datos'))
         
     } catch (error) {
         console.log(colors.bgRed.bold('Hubo un error al conectar a la Base de Datos'))
@@ -24,8 +26,24 @@ connectDB()
 //Instancia de Express
 const server = express()
 
+//Permitir conexion
+const corsOptions: CorsOptions = {
+    origin: function (origin, callback) {
+        const whitelist = [process.env.FRONTEND_URL || 'http://localhost:5173'];
+        if (!origin || whitelist.includes(origin)) {
+             console.log(colors.blue.bold(`Conexión permitida desde: ${origin || 'Servidor/Tool'}`))
+            callback(null, true);
+        } else {
+            callback(new Error('Error de CORS: origen no permitido'));
+        }
+    }
+};
+server.use(cors(corsOptions))
+
 //Leer datos de formularios
 server.use(express.json())
+
+server.use(morgan('dev'))
 
 server.use('/api/products', router )
 
